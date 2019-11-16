@@ -1,42 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "intarray.h"
 
-typedef struct _intarray intarray;
-
-struct _intarray {
-	int * data ;
-	int len;
-};
-
-
-
-/* PROTOTYPES */
-intarray intarray_create (int len);
-void intarray_debug (intarray array);
-void intarray_print_positive_value (intarray array);
-int intarray_search (intarray array , int n);
-int intarray_count_occurence (intarray array, int n);
-void intarray_destroy (intarray array);
-int intarray_get (intarray array, int index);
-void intarray_set (intarray array, int index, int n);
-int intarray_length (intarray array);
-
-/* MAIN */
-int main (int argc, char ** argv) {
-	
-	intarray t = intarray_create (8);
-	intarray_set(t, 1, 123);
-	intarray_set(t, 6, 406);
-	intarray_set(t, 7, 65);
-	printf("Index 7 = %d\n", intarray_get (t, 7));
-	printf("Longueur du tableau = %d\n", intarray_length(t));
-	intarray_debug (t);
-	intarray_destroy (t);
-	return EXIT_SUCCESS;
-}
-
-
-/* FONCTIONS */
+  /*************/
+ /* FONCTIONS */
+/*************/
 
 intarray intarray_create (int len) {
 	intarray array;
@@ -116,4 +84,53 @@ void intarray_set (intarray array, int index, int n) {
 
 int intarray_length (intarray array) {
 	return array.len;
+}
+
+intarray intarray_concact (intarray T1, intarray T2) {
+	intarray array = intarray_create (T1.len + T2.len);
+	int i = 0, j = 0;
+	for (;i<T1.len; i++, j++)
+		array.data[j] = T1.data[i];
+	for (i=0; i<T2.len; i++, j++)
+		array.data[j] = T2.data[i];
+	return array;
+}
+
+int intarray_get_min (intarray array) {
+	return array.data[intarray_get_index_of_min(array)];
+}
+
+int intarray_get_index_of_min (intarray array) {
+	return intarray_get_index_of_min_from (array, 0);
+}
+
+int intarray_get_index_of_min_from (intarray array, int n) {
+	int i, min=array.data[n], index_mini = n;
+	
+	if ((n < 0) || (n >= array.len)) {
+		printf("intarray_get_index_of_min_from : Hors limites du tableau\n");
+		printf("les valeurs valides sont entre 0 et %d\n", array.len-1);
+		return 0;
+	}	
+
+	for (i=n+1; i < array.len; i++) {
+		if (min > array.data[i]) {
+			min = array.data[i];
+			index_mini = i;
+		}	
+	}
+	return index_mini;
+}
+
+void int_swap (int * m, int * n) {
+	int tmp  = * m;
+	* m = * n;
+	* n = tmp;
+}
+
+void intarray_sort1 (intarray array) {
+	int i;
+	for (i=0; i < array.len - 2; i++) {
+		int_swap (array.data + i , array.data + intarray_get_index_of_min_from (array, i));
+	}
 }
