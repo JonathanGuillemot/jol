@@ -134,3 +134,47 @@ void intarray_sort1 (intarray array) {
 		int_swap (array.data + i , array.data + intarray_get_index_of_min_from (array, i));
 	}
 }
+
+int intarray_sum (intarray array) {
+	int i, sum = 0;
+	for (i=0; i < array.len; i++) {
+		sum += array.data[i];
+	}
+	if (array.len <= 0)
+		printf("intarray_sum : tableau de longueur <= 0\n");
+	return sum;
+}
+
+float intarray_average (intarray array) {
+	if (array.len > 0)
+		return (intarray_sum (array) + 0.0) / array.len;
+	else {
+		printf("intarray_average : tableau de longueur <=0\n");
+		return -1.0;
+	}
+}
+
+float intarray_median (intarray array) {
+	if (array.len <= 0) {
+		printf("intarray_sum : tableau de longueur <= 0\n");
+		return -1.0;
+	}
+	intarray copy = intarray_clone (array);
+	float median;
+	intarray_sort1(copy);
+	if (copy.len % 2 == 0)
+		median = (copy.data[copy.len/2-1] + copy.data[copy.len/2])/2.0;
+	else
+		median = copy.data[(copy.len-1)/2];
+	
+	intarray_destroy(copy);
+	return median;
+}
+
+intarray intarray_clone (intarray array) {
+	int i;
+	intarray copy = intarray_create (array.len);
+	for (i=0; i < array.len; i++)
+		copy.data[i] = array.data[i];
+	return copy;
+}

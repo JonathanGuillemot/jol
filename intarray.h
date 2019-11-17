@@ -23,7 +23,10 @@ int intarray_get_index_of_min (intarray array);
 int intarray_get_index_of_min_from (intarray array, int n);
 void int_swap (int * m, int * n);
 void intarray_sort1 (intarray array);
-
+int intarray_sum (intarray array);
+float intarray_average (intarray array);
+float intarray_median (intarray array);
+intarray intarray_clone (intarray array);
 
 
 
