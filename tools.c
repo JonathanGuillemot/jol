@@ -3,11 +3,6 @@
 #include "tools.h"
 
 
-int main (int * argc, char * argv) {
-	printf("%d\n", string_to_int("986"));
-	return EXIT_SUCCESS;
-}
-
 int string_to_int (char * str) {
 	int ok;
 	int n = safe_string_to_int (str, &ok);
@@ -20,6 +15,8 @@ int string_to_int (char * str) {
  * ok vaut 0 sinon
  */
 int safe_string_to_int (char * str , int * ok) {
+	if (*str == '-')
+		return - safe_string_to_int (str + 1, ok);
 	* ok = 1;
 	if (! * str) {
 		* ok = 0;

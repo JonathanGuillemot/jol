@@ -130,7 +130,7 @@ void int_swap (int * m, int * n) {
 
 void intarray_sort1 (intarray array) {
 	int i;
-	for (i=0; i < array.len - 2; i++) {
+	for (i=0; i < array.len - 1; i++) {
 		int_swap (array.data + i , array.data + intarray_get_index_of_min_from (array, i));
 	}
 }
