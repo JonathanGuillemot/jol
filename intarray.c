@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "intarray.h"
+#include "tools.h"
 
   /*************/
  /* FONCTIONS */
@@ -100,8 +101,16 @@ int intarray_get_min (intarray array) {
 	return array.data[intarray_get_index_of_min(array)];
 }
 
+int intarray_get_max (intarray array) {
+	return array.data[intarray_get_index_of_max(array)];
+}
+
 int intarray_get_index_of_min (intarray array) {
 	return intarray_get_index_of_min_from (array, 0);
+}
+
+int intarray_get_index_of_max (intarray array) {
+	return intarray_get_index_of_max_from (array, 0);
 }
 
 int intarray_get_index_of_min_from (intarray array, int n) {
@@ -122,10 +131,22 @@ int intarray_get_index_of_min_from (intarray array, int n) {
 	return index_mini;
 }
 
-void int_swap (int * m, int * n) {
-	int tmp  = * m;
-	* m = * n;
-	* n = tmp;
+int intarray_get_index_of_max_from (intarray array, int n) {
+	int i, max=array.data[n], index_maxi = n;
+	
+	if ((n < 0) || (n >= array.len)) {
+		printf("intarray_get_index_of_max_from : Hors limites du tableau\n");
+		printf("les valeurs valides sont entre 0 et %d\n", array.len-1);
+		return 0;
+	}	
+
+	for (i=n+1; i < array.len; i++) {
+		if (max < array.data[i]) {
+			max = array.data[i];
+			index_maxi = i;
+		}	
+	}
+	return index_maxi;
 }
 
 void intarray_sort1 (intarray array) {
@@ -140,8 +161,10 @@ int intarray_sum (intarray array) {
 	for (i=0; i < array.len; i++) {
 		sum += array.data[i];
 	}
-	if (array.len <= 0)
+	if (array.len <= 0) {
 		printf("intarray_sum : tableau de longueur <= 0\n");
+		return -1;
+	}
 	return sum;
 }
 

@@ -18,11 +18,25 @@ int main (int argc, char ** argv) {
 	}
 	array.len = real_len_of_array; // BIDOUILLAGE DEGUEU
 
-	intarray_debug(array);
-	printf("Somme = %d\n", intarray_sum(array));
-	printf("Moyenne = %f\n", intarray_average(array));
-	printf("Mediane = %f\n", intarray_median(array));
+	if (array.len == 0) {
+		printf("Aucun nombre. Statistiques impossibles.\n");
+		intarray_destroy(array);
+		return EXIT_SUCCESS;
+	}
 
+	printf("\nVous avez entre les entiers suivants :\n");
+	intarray_debug(array);
+	{
+		int min = intarray_get_min (array);
+		int max = intarray_get_max (array);
+		printf("\nQuelques statistiques :\n");
+		printf("Mimimum = %d\n", min);
+		printf("Maximum = %d\n", max);
+		printf("Etendue = %d\n", max-min);
+		printf("Somme = %d\n", intarray_sum(array));
+		printf("Moyenne = %f\n", intarray_average(array));
+		printf("Mediane = %f\n", intarray_median(array));
+	}
 	intarray_destroy (array);
 	return EXIT_SUCCESS;
 }

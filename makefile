@@ -6,7 +6,7 @@ stats : stats.o intarray.o tools.o
 testarray : testarray.o intarray.o tools.o
 	gcc testarray.o intarray.o tools.o -o testarray
 
-intarray.o : intarray.c intarray.h
+intarray.o : intarray.c intarray.h tools.h
 	gcc -c intarray.c
 
 testarray.o : testarray.c intarray.h
