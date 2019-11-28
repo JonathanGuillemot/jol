@@ -1,3 +1,7 @@
+#ifndef __INTARRAY_H__
+#define __INTARRAY_H__
+#include "tools.h"
+
 typedef struct _intarray S_intarray;
 typedef struct _intarray * intarray;
 
@@ -7,11 +11,12 @@ struct _intarray {
 	int len;
 };
 
-
+#define INTARRAY_DEFAULT_ALLOC 8
 
 /* PROTOTYPES */
 intarray intarray_create (int len);
 intarray empty_intarray_create (int alloc);
+intarray standard_empty_intarray_create (void); 
 void intarray_debug (intarray array);
 void ext_intarray_debug (intarray array);
 void intarray_print_positive_value (intarray array);
@@ -37,3 +42,5 @@ int intarray_sum (intarray array);
 float intarray_average (intarray array);
 float intarray_median (intarray array);
 intarray intarray_clone (intarray array);
+
+#endif

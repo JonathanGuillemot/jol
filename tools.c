@@ -40,3 +40,8 @@ void int_swap (int * m, int * n) {
 	* n = tmp;
 }
 
+void char_swap (char * m, char * n) {
+	char tmp  = * m;
+	* m = * n;
+	* n = tmp;
+}

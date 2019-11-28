@@ -27,6 +27,10 @@ intarray intarray_create (int len) {
 	return array;
 }
 
+intarray standard_empty_intarray_create (void) {
+	return empty_intarray_create (INTARRAY_DEFAULT_ALLOC);
+}
+
 intarray empty_intarray_create (int alloc) {
 	intarray array = malloc (sizeof (S_intarray));
 	array->len = 0;

@@ -1,19 +1,22 @@
-all : stats testarray
+all : stats debug
 	echo "compilation terminee"
 stats : stats.o intarray.o tools.o
 	gcc stats.o intarray.o tools.o -o stats
 
-testarray : testarray.o intarray.o tools.o
-	gcc testarray.o intarray.o tools.o -o testarray
+debug : debug.o intarray.o tools.o jstr.o
+	gcc debug.o intarray.o tools.o jstr.o -o debug
 
 intarray.o : intarray.c intarray.h tools.h
 	gcc -c intarray.c
 
-testarray.o : testarray.c intarray.h
-	gcc -c testarray.c
+jstr.o : jstr.c jstr.h tools.h intarray.h
+	gcc -c jstr.c
+
+debug.o : debug.c intarray.h jstr.h
+	gcc -c debug.c
 
 tools.o : tools.c tools.h
 	gcc -c tools.c
 
-stat.o : stats.c intarray.h tools.h
-	gcc -c stat.c
+stats.o : stats.c intarray.h tools.h
+	gcc -c stats.c
