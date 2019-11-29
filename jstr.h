@@ -46,21 +46,16 @@ int jstr_sum (jstr string);
 float jstr_average (jstr string);
 float jstr_median (jstr string);
 jstr jstr_clone (jstr string);
-
-
+int jstr_equal_substr (jstr j1, int s1, int e1, jstr j2, int s2);
+int jstr_equal (jstr j1, jstr j2);
+intarray jstr_find_substr_indices (jstr j, jstr sub);
+intarray jstr_find_proper_substr_indices (jstr j, jstr sub);
+int jstr_compare (jstr j1, jstr j2);
 
 #endif
 
 /*
- *    0) Concatener en une seule chaine tous les arguments argv sauf argv[0]
- *    1) int jstr_equal_substr (jstr j1, int s1, int e1, jstr j2, int s2);
- *    		=> retourne 1 si le motif de j1 commencant en s1 et finissant en e1 est egale au motif de j2 commencant en s2
- *    2) int jstr_equal (jstr j1, jstr j2);
- *    3)intarray jstr_find_substr_indices (jstr j, jstr sub)
- *    		=> retourne un intarray enregistrant toutes les positions de j ou la chaine sub commence (chevauchement possible)
  *
- *    4)intarray jstr_find_substr_indices (jstr j, jstr sub)
- *    		=> idem aue 3) mais sans chevauchement possible
  *    5)int jstr_compare (jstr j1, jstr j2,);
  *		-1 si j1 < j2 // 0 si j1 egale a j2 // 1 si j1 > J2 (ordre lexicographique)
  *

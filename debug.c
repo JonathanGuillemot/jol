@@ -6,15 +6,13 @@
 
 /* MAIN */
 int main (int argc, char ** argv) {
+	
+	jstr j1 = regstr_to_jstr ("abc");
+	jstr j2 = regstr_to_jstr ("abcd");
+	printf("%d\n", jstr_compare (j1, j2));
+	jstr_destroy (j1);
+	jstr_destroy (j2);
 
-	jstr S1 = standard_empty_jstr_create ();
-	int i;
-	for (i = 1; i < argc; i ++) {
-		jstr tmp = regstr_to_jstr (argv[i]);
-		D_jstr_concact (S1, tmp);
-		jstr_destroy (tmp);
-	}
-	ext_jstr_debug (S1);
-	jstr_destroy (S1);
 	return EXIT_SUCCESS;
 }
+//-1 si j1 < j2 // 0 si j1 egale a j2 // 1 si j1 > J2 (ordre lexicographique)

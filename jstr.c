@@ -321,3 +321,63 @@ void jstr_add (jstr  string, char c) {
 	ext_jstr_set (string, string->len, c);
 }
 
+
+int jstr_equal_substr (jstr j1, int s1, int e1, jstr j2, int s2) {
+	int i;
+	for (i=s1; i <= e1; i++) {
+		if (j1->data[i] != j2->data[s2])
+			return 0;
+		s2 ++;
+	}
+	return 1;
+}
+
+int jstr_equal (jstr j1, jstr j2) {
+	int i;
+	if (j1->len != j2->len) return 0;
+	for (i=0; i < j1->len; i++)
+		if (j1->data[i] != j2->data[i])
+			return 0;
+	return 1;
+
+}
+
+intarray jstr_find_substr_indices (jstr j, jstr sub) {
+	int i;
+	intarray array = standard_empty_intarray_create ();
+	for (i=0; i < j->len; i++) {
+		if (jstr_equal_substr (j, i, i + sub->len-1, sub, 0))
+			intarray_add (array, i);
+	}
+	return array;
+}
+
+intarray jstr_find_proper_substr_indices (jstr j, jstr sub) {
+	int i;
+	intarray array = standard_empty_intarray_create ();
+	for (i=0; i < j->len; i++) {
+		if (jstr_equal_substr (j, i, i + sub->len-1, sub, 0))
+			intarray_add (array, i);
+			i += sub->len-1;
+	}
+	return array;
+}
+
+int jstr_compare (jstr j1, jstr j2) {
+	
+	int i, len_min;
+	if (j1->len > j2->len)
+		len_min = j2->len;
+	else len_min = j1->len;
+
+	for (i=0; i<len_min; i++) {
+		if (j1->data[i] < j2->data[i])
+			return -1;
+		if (j1->data[i] > j2->data[i])
+			return 1;
+	}
+
+	if (j1->len == j2->len) return 0;
+	else if (j1->len > j2->len) return 1;
+	else return -1;
+}
