@@ -14,13 +14,13 @@ void intarray_create_aux (intarray array) {
 		printf ("intarray_create_aux : taille allouee negative ou nulle\n");
 		printf ("une taille de 4 a ete allouee a la place\n");
 	}
-	array->data = malloc(sizeof(int) * array->alloc);
+	array->data = tools_malloc(sizeof(int) * array->alloc);
 	for (i = 0; i < array->alloc; i++)
 		array->data[i] = 0;
 }
 
 intarray intarray_create (int len) {
-	intarray array = malloc (sizeof (S_intarray));
+	intarray array = tools_malloc (sizeof (S_intarray));
 	array->len = len;
 	array->alloc = len;
 	intarray_create_aux (array);
@@ -32,7 +32,7 @@ intarray standard_empty_intarray_create (void) {
 }
 
 intarray empty_intarray_create (int alloc) {
-	intarray array = malloc (sizeof (S_intarray));
+	intarray array = tools_malloc (sizeof (S_intarray));
 	array->len = 0;
 	array->alloc = alloc;
 	intarray_create_aux (array);
@@ -88,8 +88,8 @@ int intarray_count_occurence (intarray array, int n) {
 }
 
 void intarray_destroy (intarray array) {
-	free (array->data);
-	free (array);
+	tools_free (array->data, sizeof(int) * array->alloc);
+	tools_free (array, sizeof(S_intarray));
 }
 
 int intarray_get (intarray array, int index) {
@@ -111,11 +111,11 @@ void intarray_set (intarray array, int index, int n) {
 }
 
 void intarray_resize (intarray array, int newalloc) {
-	int * newdata = malloc (sizeof(int) * newalloc);
+	int * newdata = tools_malloc (sizeof(int) * newalloc);
 	int i;
 	for (i=0; i < array->len; i++)
 		newdata[i] = array->data[i];
-	free (array->data);
+	tools_free (array->data, sizeof(int) * array->alloc);
 	array->data = newdata;
 	array->alloc = newalloc;
 }
@@ -149,7 +149,7 @@ int intarray_length (intarray array) {
 	return array->len;
 }
 
-intarray intarray_concact (intarray T1, intarray T2) {
+intarray intarray_concat (intarray T1, intarray T2) {
 	intarray array = intarray_create (T1->len + T2->len);
 	int i = 0, j = 0;
 	for (;i<T1->len; i++, j++)

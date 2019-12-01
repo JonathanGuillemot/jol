@@ -5,6 +5,9 @@
 #include "intarray.h"
 
 int main (int argc, char ** argv) {
+	
+	tools_memory_init();
+
 	intarray array = empty_intarray_create (argc - 1);
 	int i;
 	for (i=1; i < argc; i++) {
@@ -34,6 +37,9 @@ int main (int argc, char ** argv) {
 		printf("Mediane = %f\n\n", intarray_median(array));
 	}
 	intarray_destroy (array);
+	
+	tools_memory_check_at_end_of_app ();
+
 	return EXIT_SUCCESS;
 }
 

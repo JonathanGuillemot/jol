@@ -4,7 +4,46 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+int GLOBAL_ALLOC_MEMORY;
+
+/*############*/
+/* TYPEDEF */
+/*############*/
+
+
+typedef struct _intarray S_intarray;
+typedef struct _intarray * intarray;
+
+struct _intarray {
+	int * data ;
+	int alloc;
+	int len;
+};
+
+typedef struct _jstr S_jstr;
+typedef struct _jstr * jstr;
+
+struct _jstr {
+	char * data ;
+	int alloc;
+	int len;
+};
+
+
+typedef struct _stringarray S_stringarray;
+typedef struct _stringarray * stringarray;
+
+struct _stringarray {
+	jstr * data ;
+	int alloc;
+	int len;
+};
+
 typedef char * regstr;
+
+/*############*/
+/* FONCTIONS */
+/*############*/
 
 int string_to_int (char * str);
 
@@ -14,6 +53,9 @@ int string_to_int (char * str);
 int safe_string_to_int (char * str , int * ok);
 void int_swap (int * m, int * n);
 void char_swap (char * m, char * n);
-
+void tools_memory_init (void);
+void  * tools_malloc (int alloc);
+void tools_free (void * ptr, int alloc);
+void tools_memory_check_at_end_of_app (void);
 
 #endif

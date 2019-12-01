@@ -3,15 +3,6 @@
 #include "tools.h"
 #include "intarray.h"
 
-typedef struct _jstr S_jstr;
-typedef struct _jstr * jstr;
-
-struct _jstr {
-	char * data ;
-	int alloc;
-	int len;
-};
-
 #define JSTR_DEFAULT_ALLOC 8
 
 /* PROTOTYPES */
@@ -22,7 +13,6 @@ jstr regstr_to_jstr (char * str);
 char * jstr_to_regstr (jstr string);
 void jstr_debug (jstr string);
 void ext_jstr_debug (jstr string);
-void jstr_print_positive_value (jstr string);
 int jstr_search (jstr string , char c);
 int jstr_count_occurence (jstr string, char c);
 void jstr_destroy (jstr string);
@@ -33,8 +23,8 @@ void jstr_add (jstr  string, char c);
 void jstr_delete_sorted (jstr  string, int index);
 void jstr_delete_unsorted (jstr  string, int index);
 int jstr_length (jstr string);
-jstr jstr_concact (jstr S1, jstr S2);
-void D_jstr_concact (jstr S1, jstr S2);
+jstr jstr_concat (jstr S1, jstr S2);
+void D_jstr_concat (jstr S1, jstr S2);
 char jstr_get_min (jstr string);
 char jstr_get_max (jstr string);
 int jstr_get_index_of_min (jstr string);
@@ -54,9 +44,3 @@ int jstr_compare (jstr j1, jstr j2);
 
 #endif
 
-/*
- *
- *    5)int jstr_compare (jstr j1, jstr j2,);
- *		-1 si j1 < j2 // 0 si j1 egale a j2 // 1 si j1 > J2 (ordre lexicographique)
- *
- */

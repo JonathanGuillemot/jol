@@ -15,13 +15,13 @@ void jstr_create_aux (jstr string) {
 		printf ("jstr_create_aux : taille allouee negative ou nulle\n");
 		printf ("une taille de 4 a ete allouee a la place\n");
 	}
-	string->data = malloc(sizeof(char) * string->alloc);
+	string->data = tools_malloc(sizeof(char) * string->alloc);
 	for (i = 0; i < string->alloc; i++)
 		string->data[i] = '\0';
 }
 
 jstr jstr_create (int len) {
-	jstr string = malloc (sizeof (S_jstr));
+	jstr string = tools_malloc (sizeof (S_jstr));
 	string->len = len;
 	string->alloc = len;
 	jstr_create_aux (string);
@@ -33,7 +33,7 @@ jstr standard_empty_jstr_create (void) {
 }
 
 jstr empty_jstr_create (int alloc) {
-	jstr string = malloc (sizeof (S_jstr));
+	jstr string = tools_malloc (sizeof (S_jstr));
 	string->len = 0;
 	string->alloc = alloc;
 	jstr_create_aux (string);
@@ -49,7 +49,7 @@ jstr regstr_to_jstr (char * str) {
 }
 
 char * jstr_to_regstr (jstr string) {
-	char * str = malloc (sizeof (char) * string->len + 1);
+	char * str = tools_malloc (sizeof (char) * string->len + 1);
 	int i;
 	for (i=0; i < string->len; i++)
 		str[i] = string->data[i];
@@ -61,30 +61,13 @@ void jstr_debug (jstr string) {
 	int i;
 	for (i=0; i < string->len ; i++)
 		printf("%c",string->data[i]);
-	printf("\n");
 }
 
 void ext_jstr_debug (jstr string) {
 	printf("Allocation de la chaine = %d // Longueur de la chaine = %d\n", string->alloc, string->len);
 	jstr_debug(string);
 }
-/*
-void jstr_print_positive_value (jstr string) {
-	int i;
-	printf("[");
-	for (i=0; i < string->len - 1; i++) {
-		
 
-		if (string->data[i]>=0 && i==string->len-2 && string->data[i+1] < 0 ) 
-			printf(" %d ", string->data[i]);
-		else if (string->data[i]>=0) 
-			printf(" %d ,", string->data[i]);
-	}
-		if (string->data[string->len-1] >= 0)
-		printf(" %d ", string->data[string->len-1]);
-	printf("]\n");
-}
-*/
 int jstr_search (jstr string , char c) {
 	int i;
 	for (i=0 ; i < string->len ; i++)
@@ -103,8 +86,8 @@ int jstr_count_occurence (jstr string, char c) {
 }
 
 void jstr_destroy (jstr string) {
-	free (string->data);
-	free (string);
+	tools_free (string->data, sizeof(char) * string->alloc);
+	tools_free (string, sizeof(S_jstr));
 }
 
 char jstr_get (jstr string, int index) {
@@ -126,11 +109,11 @@ void jstr_set (jstr string, int index, char c) {
 }
 
 void jstr_resize (jstr string, int newalloc) {
-	char * newdata = malloc (sizeof(char) * newalloc);
+	char * newdata = tools_malloc (sizeof(char) * newalloc);
 	int i;
 	for (i=0; i < string->len; i++)
 		newdata[i] = string->data[i];
-	free (string->data);
+	tools_free (string->data, sizeof(char) * string->alloc);
 	string->data = newdata;
 	string->alloc = newalloc;
 }
@@ -164,7 +147,7 @@ int jstr_length (jstr string) {
 	return string->len;
 }
 
-jstr jstr_concact (jstr T1, jstr T2) {
+jstr jstr_concat (jstr T1, jstr T2) {
 	jstr string = jstr_create (T1->len + T2->len);
 	int i, j = 0;
 	for (i = 0; i<T1->len; i++, j++)
@@ -174,7 +157,7 @@ jstr jstr_concact (jstr T1, jstr T2) {
 	return string;
 }
 
-void D_jstr_concact (jstr S1, jstr S2) {
+void D_jstr_concat (jstr S1, jstr S2) {
 	int i;
 	for (i=0; i < S2->len; i++)
 		jstr_add (S1, S2->data[i]);
@@ -324,6 +307,18 @@ void jstr_add (jstr  string, char c) {
 
 int jstr_equal_substr (jstr j1, int s1, int e1, jstr j2, int s2) {
 	int i;
+	if (s1 > s2) {
+		int_swap (&s1, &s2);
+		printf ("jstr_equal_substr : s1 > s2. Les valeurs ont ete changee automatiquement\n");
+	}
+	
+	if ((s1 < 0) || (s2 < 0) || (s1 >= j1->len) || (e1 >= j1->len) || (s2 >= j2->len)) {
+		printf("jstr_equal_substr : out of bounds\n");
+		return 0;
+	}
+
+	if ((s2 + e1 - s1 + 1) > j2->len)
+		return 0;
 	for (i=s1; i <= e1; i++) {
 		if (j1->data[i] != j2->data[s2])
 			return 0;
@@ -333,19 +328,15 @@ int jstr_equal_substr (jstr j1, int s1, int e1, jstr j2, int s2) {
 }
 
 int jstr_equal (jstr j1, jstr j2) {
-	int i;
-	if (j1->len != j2->len) return 0;
-	for (i=0; i < j1->len; i++)
-		if (j1->data[i] != j2->data[i])
-			return 0;
-	return 1;
-
+	if (j1->len != j2->len)
+		return 0;
+	return jstr_equal_substr (j1, 0, j1->len-1, j2, 0);
 }
 
 intarray jstr_find_substr_indices (jstr j, jstr sub) {
 	int i;
 	intarray array = standard_empty_intarray_create ();
-	for (i=0; i < j->len; i++) {
+	for (i=0; i <= j->len - sub->len; i++) {
 		if (jstr_equal_substr (j, i, i + sub->len-1, sub, 0))
 			intarray_add (array, i);
 	}
@@ -355,7 +346,7 @@ intarray jstr_find_substr_indices (jstr j, jstr sub) {
 intarray jstr_find_proper_substr_indices (jstr j, jstr sub) {
 	int i;
 	intarray array = standard_empty_intarray_create ();
-	for (i=0; i < j->len; i++) {
+	for (i=0; i <= j->len - sub->len; i++) {
 		if (jstr_equal_substr (j, i, i + sub->len-1, sub, 0))
 			intarray_add (array, i);
 			i += sub->len-1;

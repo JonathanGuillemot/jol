@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "tools.h"
+#include "intarray.h"
 
 
 int string_to_int (char * str) {
@@ -44,4 +45,24 @@ void char_swap (char * m, char * n) {
 	char tmp  = * m;
 	* m = * n;
 	* n = tmp;
+}
+
+void tools_memory_init (void) {
+	GLOBAL_ALLOC_MEMORY = 0;
+}
+
+void * tools_malloc (int alloc) {
+	void * ptr = malloc (alloc);
+	GLOBAL_ALLOC_MEMORY += alloc;
+	return ptr;	
+}
+
+void tools_free (void * ptr, int alloc) {
+	free (ptr);
+	GLOBAL_ALLOC_MEMORY -= alloc;
+}
+
+void tools_memory_check_at_end_of_app (void) {
+	if (GLOBAL_ALLOC_MEMORY != 0)
+		printf("Attention fuite de memoire ! %d octets non liberes\n", GLOBAL_ALLOC_MEMORY);	
 }

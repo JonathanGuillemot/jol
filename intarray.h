@@ -2,15 +2,6 @@
 #define __INTARRAY_H__
 #include "tools.h"
 
-typedef struct _intarray S_intarray;
-typedef struct _intarray * intarray;
-
-struct _intarray {
-	int * data ;
-	int alloc;
-	int len;
-};
-
 #define INTARRAY_DEFAULT_ALLOC 8
 
 /* PROTOTYPES */
@@ -30,7 +21,7 @@ void intarray_add (intarray  array, int n);
 void intarray_delete_sorted (intarray  array, int index);
 void intarray_delete_unsorted (intarray  array, int index);
 int intarray_length (intarray array);
-intarray intarray_concact (intarray T1, intarray T2);
+intarray intarray_concat (intarray T1, intarray T2);
 int intarray_get_min (intarray array);
 int intarray_get_max (intarray array);
 int intarray_get_index_of_min (intarray array);
