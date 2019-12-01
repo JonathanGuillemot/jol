@@ -80,7 +80,7 @@ void soft_stringarray_destroy (stringarray string) {
 void hard_stringarray_destroy (stringarray string) {
 	int i;
 	for (i=0; i < string->len; i++)
-		jstr_destroy (string->data[i]);
+		regular_jstr_destroy (string->data + i);
 	soft_stringarray_destroy (string);
 }
 
@@ -99,7 +99,7 @@ void stringarray_set (stringarray string, int index, jstr j) {
 		printf("Les valeurs valides sont entre 0 et %d.\n", string->len-1);
 		return;
 	}
-	jstr_destroy (string->data[index]);
+	regular_jstr_destroy (string->data + index);
 	string->data[index] = j;
 }
 
@@ -108,6 +108,10 @@ void stringarray_resize (stringarray string, int newalloc) {
 	int i;
 	for (i=0; i < string->len; i++)
 		newdata[i] = string->data[i];
+	while (i < newalloc) {
+		newdata[i] = NULL;
+		i++;
+	}
 	tools_free (string->data, sizeof(jstr) * string->alloc);
 	string->data = newdata;
 	string->alloc = newalloc;
@@ -120,7 +124,7 @@ void ext_stringarray_set (stringarray string, int index, jstr j) {
 	}
 
 	if (index < string->len) {
-		jstr_destroy (string->data[index]);
+		regular_jstr_destroy (string->data + index);
 		string->data[index] = j;
 		return;
 	}	
@@ -241,7 +245,7 @@ void stringarray_delete_sorted (stringarray  string, int index) {
 	printf("les valeurs valides sont entre 0 et %d\n", string->len-1);
 	return;
 	}
-	jstr_destroy (string->data[index]);
+	regular_jstr_destroy (string->data + index);
 
 	int i;
 	for (i = index + 1; i < string->len; i++)
@@ -257,7 +261,7 @@ void stringarray_delete_unsorted (stringarray  string, int index) {
 		printf("les valeurs valides sont entre 0 et %d\n", string->len-1);
 		return;
 	}
-	jstr_destroy (string->data[index]);
+	regular_jstr_destroy (string->data + index);
 	string->data[index] = string->data[string->len-1];
 	string->len --;
 }

@@ -25,6 +25,7 @@ void ext_jstr_debug (jstr string);
 int jstr_search (jstr string , char c);
 int jstr_count_occurence (jstr string, char c);
 void jstr_destroy (jstr string);
+void regular_jstr_destroy (jstr * string);
 char jstr_get (jstr string, int index);
 void jstr_set (jstr string, int index, char c);
 void ext_jstr_set (jstr string, int index, char c);

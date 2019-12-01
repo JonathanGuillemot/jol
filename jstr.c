@@ -90,6 +90,17 @@ void jstr_destroy (jstr string) {
 	tools_free (string, sizeof(S_jstr));
 }
 
+void regular_jstr_destroy (jstr * string) {
+	if (string == NULL) {
+		printf ("regular_jstr_destroy : jstr is a NULL pointer.\n");
+		return;
+	}
+	if (* string != NULL) {
+		jstr_destroy (* string);
+		* string = NULL;
+	}
+}
+
 char jstr_get (jstr string, int index) {
 	if ((index < 0) || (index >= string->len)) {
 		printf("jstr_get : L'index %d est invalide\n", index);
