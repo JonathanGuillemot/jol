@@ -13,11 +13,12 @@ intarray.o : intarray.c intarray.h tools.h
 jstr.o : jstr.c jstr.h tools.h intarray.h
 	gcc -c jstr.c
 
+debug.o : debug.c intarray.h jstr.h stringarray.h
+	gcc -c debug.c
+
 stringarray.o : stringarray.c stringarray.h tools.h jstr.h
 	gcc -c stringarray.c
 
-debug.o : debug.c intarray.h jstr.h stringarray.h
-	gcc -c debug.c
 
 tools.o : tools.c tools.h 
 	gcc -c tools.c

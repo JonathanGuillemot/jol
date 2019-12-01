@@ -5,6 +5,15 @@
 
 #define JSTR_DEFAULT_ALLOC 8
 
+typedef struct _jstr S_jstr;
+typedef struct _jstr * jstr;
+
+struct _jstr {
+	char * data ;
+	int alloc;
+	int len;
+};
+
 /* PROTOTYPES */
 jstr jstr_create (int len);
 jstr empty_jstr_create (int alloc);

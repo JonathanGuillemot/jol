@@ -4,6 +4,15 @@
 
 #define INTARRAY_DEFAULT_ALLOC 8
 
+typedef struct _intarray S_intarray;
+typedef struct _intarray * intarray;
+
+struct _intarray {
+	int * data ;
+	int alloc;
+	int len;
+};
+
 /* PROTOTYPES */
 intarray intarray_create (int len);
 intarray empty_intarray_create (int alloc);

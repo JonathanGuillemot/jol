@@ -10,35 +10,6 @@ int GLOBAL_ALLOC_MEMORY;
 /* TYPEDEF */
 /*############*/
 
-
-typedef struct _intarray S_intarray;
-typedef struct _intarray * intarray;
-
-struct _intarray {
-	int * data ;
-	int alloc;
-	int len;
-};
-
-typedef struct _jstr S_jstr;
-typedef struct _jstr * jstr;
-
-struct _jstr {
-	char * data ;
-	int alloc;
-	int len;
-};
-
-
-typedef struct _stringarray S_stringarray;
-typedef struct _stringarray * stringarray;
-
-struct _stringarray {
-	jstr * data ;
-	int alloc;
-	int len;
-};
-
 typedef char * regstr;
 
 /*############*/
