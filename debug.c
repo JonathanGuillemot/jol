@@ -9,16 +9,18 @@
 int main (int argc, char ** argv) {
 	tools_memory_init ();
 	
-	stringarray s1 = standard_empty_stringarray_create ();
-	
-	for (int i = 0; i < 20; i++)
-		stringarray_add (s1, regstr_to_jstr ("XXX"));
-	
-	ext_stringarray_debug(s1);
-	
-	hard_stringarray_destroy(s1);
-	
-	tools_memory_check_at_end_of_app ();
+	float a=2;
+	int i, n=24;
 
+	printf("puiss_iter(%f, %d) = %f\n", a, n, puiss_iter (a, n));
+	printf("puiss_rec(%f, %d) = %f\n", a, n, puiss_rec (a, n));
+	printf("puiss_alex(%f, %d) = %f\n", a, n, puiss_alex (a, n));
+
+	for (i=0; i < 100000000; i++)
+		puiss_alex(a, n);
+
+
+	tools_memory_check_at_end_of_app ();
+						 
 	return EXIT_SUCCESS;
 }

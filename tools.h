@@ -28,5 +28,8 @@ void tools_memory_init (void);
 void  * tools_malloc (int alloc);
 void tools_free (void * ptr, int alloc);
 void tools_memory_check_at_end_of_app (void);
+float puiss_iter (float a, int n);
+float puiss_alex (float a, int n);
+float puiss_rec (float a, int n);
 
 #endif

@@ -66,3 +66,26 @@ void tools_memory_check_at_end_of_app (void) {
 	if (GLOBAL_ALLOC_MEMORY != 0)
 		printf("Attention fuite de memoire ! %d octets non liberes\n", GLOBAL_ALLOC_MEMORY);	
 }
+
+float puiss_iter (float a, int n) {
+	int i;
+	float r = 1;
+	if (n < 0)
+		return 1 / puiss_iter (a, -n);
+	for (i = 1; i <= n; i++) 
+		r *= a;
+	return r;
+}
+
+float puiss_rec (float a, int n) {
+	if (n < 0) return 1 / puiss_rec (a, -n);
+	if (n==0) return 1;
+	return a * puiss_rec (a, n-1);
+}	
+
+float puiss_alex (float a, int n) {
+	if (n < 0) return 1 / puiss_alex (a, -n);
+	if (n == 0) return 1;
+	if ((n % 2) == 0) return puiss_alex (a * a, n/2);
+	return a * puiss_alex (a * a, (n-1) / 2); 
+}
