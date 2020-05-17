@@ -5,7 +5,7 @@ stats : stats.o intarray.o tools.o
 	gcc stats.o intarray.o tools.o -o stats
 
 debug : debug.o intarray.o tools.o jstr.o stringarray.o
-	gcc debug.o intarray.o tools.o jstr.o stringarray.o -o debug
+	gcc debug.o intarray.o tools.o jstr.o stringarray.o -o debug -lm
 
 intarray.o : intarray.c intarray.h tools.h
 	gcc -c intarray.c
