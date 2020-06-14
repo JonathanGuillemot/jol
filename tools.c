@@ -1,5 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include "tools.h"
 #include "intarray.h"
 
@@ -88,4 +86,72 @@ float puiss_alex (float a, int n) {
 	if (n == 0) return 1;
 	if ((n % 2) == 0) return puiss_alex (a * a, n/2);
 	return a * puiss_alex (a * a, (n-1) / 2); 
+}
+
+int tools_random_int (int vmin, int vmax) {
+	int amp = vmax - vmin + 1;
+	double _alea = (1.0 * rand() / INT_MAX) * amp;
+	int alea = (int) (vmin + _alea);
+	if (alea < vmin) alea = vmin;
+	else if (alea > vmax) alea = vmax;
+	return alea;
+}
+
+void int_normalize_and_warn (int* n, int minv, int maxv) {
+	if (*n < minv) {
+		fprintf(stderr, "int %d normalized to %d.\n", *n, minv);
+		*n = minv;
+	}
+	else if (*n > maxv) {
+		fprintf(stderr, "int %d normalized to %d.\n", *n, maxv);
+		*n = maxv;
+	}
+}
+
+void int_normalize (int* n, int minv, int maxv) {
+	if (*n < minv)
+		*n = minv;
+	else if (*n > maxv)
+		*n = maxv;
+}
+
+int get_int (int minv, int maxv) {
+	int n;
+	scanf ("%d", &n);
+	while ((n < minv) || (n > maxv)) {
+		fprintf (stderr, "min = %d ; max = %d. Recommencez : ", minv, maxv);	
+		scanf ("%d", &n);
+	}
+	return n;
+}
+
+
+char * regstr_clone (char * str) {
+	int len = strlen (str);
+	char * clone = (char*) tools_malloc (sizeof (char) * (len + 1));
+	int i;
+	for (i=0; i < len; i ++) 
+		clone [i] = str[i];
+	clone[i] = '\0';
+	return clone;
+}
+
+void regstr_destroy (char ** sstr) {
+	regstr_destroy_of_len (sstr, strlen (*sstr));
+}
+
+void regstr_destroy_of_len (char** sstr, int len) {
+	char* str = *sstr;
+	tools_free (str, sizeof (char) * (len + 1));
+	*sstr = NULL;
+}
+
+bool regstr_equal (char * str1, char * str2) {
+	int i = 0;
+	while ((str1[i] != '\0') || (str2[i] != '\0')) {
+		if (str1[i] != str2[i])
+			return FALSE;
+		i++;
+	}
+	return str1[i] == str2[i];
 }

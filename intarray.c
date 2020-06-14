@@ -295,3 +295,10 @@ void intarray_add (intarray  array, int n) {
 	ext_intarray_set (array, array->len, n);
 }
 
+intarray intarray_create_random (int n, int a, int b) {
+	intarray A = empty_intarray_create (n);
+	int i;
+ 	for (i = 0; i < n; i++)
+		intarray_add (A, tools_random_int (a, b));
+	return A;	
+}

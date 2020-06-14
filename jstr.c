@@ -383,3 +383,51 @@ int jstr_compare (jstr j1, jstr j2) {
 	else if (j1->len > j2->len) return 1;
 	else return -1;
 }
+
+jstr jstr_input (void) {
+	jstr j = standard_empty_jstr_create ();
+	char c = getchar ();
+	while (c != '\n') {
+		jstr_add (j, c);
+		c = getchar ();
+	}
+	return j;
+}
+
+char* regstr_input (void){
+	jstr j = jstr_input ();
+	char* str = jstr_to_regstr (j);
+	jstr_destroy (j);
+	return str;
+}
+
+
+void jstr_reverse (jstr j) {
+	if (j->len <= 1) return;
+	int last = (j->len - 2) / 2;
+	int i;
+	for (i=0; i <= last; i++)
+		char_swap (j->data +i, j->data + (j->len - 1 - i));
+
+}
+
+jstr int_to_jstr (int n) {
+	jstr j = standard_empty_jstr_create ();
+	if (n==0) {
+		jstr_add (j, '0');
+		return j;
+	}
+	while (n!=0) {
+		jstr_add (j, '0' + n % 10);
+		n/=10;
+	}
+	jstr_reverse (j);
+	return j;
+}
+
+char * int_to_regstr (int n) {
+	jstr j = int_to_jstr (n);
+	char * str = jstr_to_regstr (j);
+	jstr_destroy (j);	
+	return str;
+}

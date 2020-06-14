@@ -51,6 +51,11 @@ int jstr_equal (jstr j1, jstr j2);
 intarray jstr_find_substr_indices (jstr j, jstr sub);
 intarray jstr_find_proper_substr_indices (jstr j, jstr sub);
 int jstr_compare (jstr j1, jstr j2);
+jstr jstr_input (void);
+char* regstr_input (void);
+void jstr_reverse (jstr j);
+jstr int_to_jstr (int n);
+char * int_to_regstr (int n);
 
 #endif
 

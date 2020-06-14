@@ -42,5 +42,6 @@ int intarray_sum (intarray array);
 float intarray_average (intarray array);
 float intarray_median (intarray array);
 intarray intarray_clone (intarray array);
+intarray intarray_create_random (int n, int a, int b);
 
 #endif
