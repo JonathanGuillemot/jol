@@ -1,7 +1,6 @@
 #include "tools.h"
 #include "intarray.h"
 
-
 int string_to_int (char * str) {
 	int ok;
 	int n = safe_string_to_int (str, &ok);

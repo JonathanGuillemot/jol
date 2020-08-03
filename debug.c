@@ -13,14 +13,17 @@
 #include "stringarray.h"
 #include "charray2D.h"
 #include "file.h"
+#include "KVdata.h"
+#include "image.h"
 
 int main (int argc, char ** argv) {
 	tools_memory_init ();
-
-	charray A = charray_load ("charray01.cha");
-	if (A != NULL) {
-		charray_debug (A);
-		charray_destroy (&A);
+	image img = image_load ("TOTO.ppm");
+	if (img == NULL)
+		fprintf (stderr, "Unable to read .ppm file.\n");
+	else {
+		image_save (img, "TITI.ppm");
+		image_destroy (&img);
 	}
 	tools_memory_check_at_end_of_app ();
 

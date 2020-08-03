@@ -176,9 +176,46 @@ void file_read_next_text_int (file F, int* nn, bool* is_integral, bool* eof) {
 
 	file_read_text_int (F, nn, is_integral, eof);
 }
+
+void file_read_str_until_sep (file F, char** str, bool *eof) {
+	int c = file_read_char_and_stop (F);
+	if (c == FILE_EOF) {
+		*str = NULL;
+		*eof = TRUE;
+		return;
+	}
+
+	jstr j = standard_empty_jstr_create ();
+
+	while ((c != FILE_EOF) && (c != ' ') && (c != '\n') && (c != 13) && (c != 10)) {
+		jstr_add (j, (char) c);
+		file_go_to_next_char (F);
+		c = file_read_char_and_stop (F);
+	}
+
+	char * sstr = jstr_to_regstr (j);
+	jstr_destroy (j);
+	*str = sstr;
+}
+
+void file_read_next_text_str (file F, char** str, bool *eof) {
+	int c = file_read_char_and_stop (F);
+	while ((c != FILE_EOF) && (c == ' ') || (c == '\n') || (c == 13) || (c == 10)) {
+		file_go_to_next_char (F);
+		c = file_read_char_and_stop (F);
+	}
+
+	if (c == FILE_EOF) {
+		*eof = TRUE;
+		*str = NULL;
+		return;
+	}
+	file_read_str_until_sep (F, str, eof); 
+}
+
 void file_read_text_int (file F, int* nn, bool* is_integral, bool* eof) {
 	int n = 0;
-	int c = file_read_char (F);
+	int c = file_read_char_and_stop (F);
 
 	if (c == FILE_EOF) {
 		*is_integral = FALSE;
@@ -193,9 +230,10 @@ void file_read_text_int (file F, int* nn, bool* is_integral, bool* eof) {
 	}
 
 	while ((c != FILE_EOF) && (c >= '0') && (c <= '9')) {
+		file_go_to_next_char (F);
 		n *= 10;
 		n += ((char) c) - '0';
-		c = file_read_char (F);
+		c = file_read_char_and_stop (F);
 	}
 
 	*is_integral = TRUE;
@@ -244,4 +282,16 @@ void file_read_str_of_len (file F, int len, char ** sstr, bool* eof) {
 	str[len] = '\0';
 	*eof = FALSE;
 	*sstr = str;
+}
+
+void file_go_to_next_line (file F) {
+	char c = file_read_char_and_stop (F);
+	while ((c != 13) && (c != 10) && (c != '\n')) {
+		file_go_to_next_char (F);
+		c = file_read_char_and_stop (F);
+	}
+	while ((c == 13) || (c == 10) || (c == '\n')) {
+		file_go_to_next_char (F);
+		c = file_read_char_and_stop (F);
+	}
 }

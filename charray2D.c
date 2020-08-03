@@ -187,8 +187,8 @@ void charray_draw_filled_box (charray A, int x1, int y1, int x2, int y2, char c)
 void charray_draw_disk (charray A, int cx, int cy, float radius, char c) {
 	int x1 = cx - radius - 2;
 	int x2 = cx + radius + 2;
-	int y1 = cx - radius - 2;
-	int y2 = cx + radius + 2;
+	int y1 = cy - radius - 2;
+	int y2 = cy + radius + 2;
 
 	int_normalize (&x1, 0, A->w -1);
 	int_normalize (&x2, 0, A->w -1);

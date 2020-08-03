@@ -49,6 +49,7 @@ void file_read_text_int (file F, int* n, bool* is_integral, bool* eof);
 // Tente de lire le prochain int qui apparait dans F
 // Apres avoir ignore tous les caracteres : ' ', '\n', CR, LF...
 void file_read_next_text_int (file F, int* n, bool* is_integral, bool* eof);
+void file_read_next_text_str (file F, char** str, bool *eof);
 
 // homologue de read (bufferise) ; retourne le nombre d'octet effectivement lus
 int file_read (file F, void* buffer, int nb_to_read);
@@ -58,4 +59,6 @@ void file_write (file F, void* buffer, int nb_to_write);
 
 void file_write_str (file F, char* str);
 void file_read_str_of_len (file F, int len, char ** sstr, bool* eof);
+void file_read_str_until_sep (file F, char** str, bool *eof); 
+void file_go_to_next_line (file F);
 #endif

@@ -9,7 +9,7 @@
 #define TRUE 1
 #define FALSE 0
 
-int GLOBAL_ALLOC_MEMORY;
+static int GLOBAL_ALLOC_MEMORY;
 
 /*############*/
 /* TYPEDEF    */
